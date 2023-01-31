@@ -35,8 +35,8 @@ function setup() {
   button = createButton(buttonTexts[1]);
   button.mousePressed(playSound).position(buttonXPos, buttonYPos);
 
-  bg.setVolume(0.2);
-  bg2.setVolume(0.8);
+  bg.setVolume(1);
+  bg2.setVolume(1);
   sfx1.setVolume(50);
   sfx2.setVolume(2);
   sfx3.setVolume(2);
