@@ -1,5 +1,20 @@
 let angle = 1;
 let r, rw, g, gw, b, bw;
+let italianFont;
+
+let wordBox = [
+  "PIZZA",
+  "HUNGRY",
+  "CHEESE",
+  "PEPPERONI",
+  "SPINACH",
+  "SAUSAGE",
+  "BREAD",
+];
+
+function preload() {
+  italianFont = loadFont("./assets/Italiana-Regular.ttf");
+}
 
 function setup() {
   createCanvas(792, 1224);
@@ -10,11 +25,25 @@ function setup() {
   gw = Math.round(Math.random() * 255);
   bw = Math.round(Math.random() * 255);
 
+  textFont(italianFont);
+  textAlign(CENTER, CENTER);
+
   noLoop();
 }
 
 function draw() {
   background(r, g, b);
+
+  // text goes here
+  textSize(200);
+  textStyle(BOLD);
+  for (let i = 0; i < 6; i++) {
+    text(
+      wordBox[Math.round(Math.random() * (wordBox.length - 1))],
+      width / 2,
+      i * 215 + 50
+    );
+  }
 
   for (let i = 0; i < 3; i++) {
     push();
