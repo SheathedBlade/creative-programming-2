@@ -10,6 +10,7 @@ let wordBox = [
   "SPINACH",
   "SAUSAGE",
   "BREAD",
+  "TOMATO",
 ];
 
 function preload() {
@@ -55,7 +56,7 @@ function draw() {
     square(0, 0, 200);
     pop();
 
-    for (let a = 0; a < radians(360); a += radians(15)) {
+    for (let a = 0; a < TWO_PI; a += radians(15)) {
       push();
       translate((width / 2) * i, (height / 2) * i);
       rotate(a);
@@ -67,7 +68,7 @@ function draw() {
       pop();
     }
 
-    for (let b = 0; b < radians(360); b += radians(7)) {
+    for (let b = 0; b < TWO_PI; b += radians(7)) {
       push();
       translate((width / 2) * i, (height / 2) * i);
       rotate(b);
