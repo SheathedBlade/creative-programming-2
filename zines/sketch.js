@@ -1,5 +1,5 @@
 let angle = 1;
-let r, rw, g, gw, b, bw;
+let r, g, b, rw, gw, bw;
 let italianFont;
 
 let wordBox = [
@@ -22,6 +22,7 @@ function setup() {
   r = Math.round(Math.random() * 255);
   g = Math.round(Math.random() * 255);
   b = Math.round(Math.random() * 255);
+
   rw = Math.round(Math.random() * 255);
   gw = Math.round(Math.random() * 255);
   bw = Math.round(Math.random() * 255);
@@ -38,6 +39,36 @@ function draw() {
   // text goes here
   textSize(200);
   textStyle(BOLD);
+
+  // for cover page
+
+  // for (let i = 0; i < 4; i++) {
+  //   push();
+  //   translate(width / 2, height / 2);
+  //   rotate(HALF_PI * i);
+
+  //   text(
+  //     wordBox[Math.round(Math.random() * (wordBox.length - 1))],
+  //     0,
+  //     -height / 4
+  //   );
+  //   pop();
+  // }
+
+  // fill(0);
+  // arc(width / 2, height / 2 + 10, 350, 350, QUARTER_PI, QUARTER_PI * 3, PIE);
+
+  // fill(255);
+  // arc(
+  //   width / 2,
+  //   height / 2 - 10,
+  //   350,
+  //   350,
+  //   PI + QUARTER_PI,
+  //   PI + QUARTER_PI * 3,
+  //   PIE
+  // );
+
   for (let i = 0; i < 6; i++) {
     text(
       wordBox[Math.round(Math.random() * (wordBox.length - 1))],
@@ -50,7 +81,7 @@ function draw() {
     push();
     translate((width / 2) * i, (height / 2) * i);
     rotate(angle);
-    fill(255);
+    fill(255, 242, 214);
     noStroke();
     rectMode(CENTER);
     square(0, 0, 200);
@@ -62,6 +93,7 @@ function draw() {
       rotate(a);
       translate(0, 200);
       rotate(angle);
+      fill(243, 213, 93);
       noStroke();
       rectMode(CENTER);
       square(0, 0, 50);
@@ -75,11 +107,13 @@ function draw() {
       translate(0, 300);
       rotate(-angle);
       rectMode(CENTER);
-      fill("red");
+      fill(225, 187, 109);
       noStroke();
       square(0, 0, 50);
       fill("green");
       triangle(0, 0, 25, 25, -25, 25);
+      fill("red");
+      triangle(0, 0, 25, 25, 25, -25);
       pop();
     }
   }
@@ -87,7 +121,6 @@ function draw() {
   angle += radians(Math.random() * 4);
 
   noFill();
-  stroke(255);
 
   for (let i = 0; i < 3; i++) {
     translate((width / 2) * i, (height / 2) * i);
@@ -95,7 +128,6 @@ function draw() {
     for (let i = 0; i < 200; i++) {
       push();
       rotate(sin(frameCount + i) * PI * 100);
-
       stroke(rw, gw, bw);
       strokeWeight(1);
       rect(0, 100, 700 - i * 3.5, 700 - i * 3.5, 200 - i);
@@ -116,7 +148,11 @@ function draw() {
       translate(tx, 0);
       fill(152, 80, 49);
       stroke(152, 80, 49, 150);
-      rect(0, 0, size1, size1);
+
+      let chance = Math.random();
+      if (chance < 0.5) rect(0, 0, size1);
+      else circle(0, 0, size1);
+
       for (let j = 0; j < 6; j++) {
         push();
         rotate(ang2 + (TWO_PI * j) / 6);
