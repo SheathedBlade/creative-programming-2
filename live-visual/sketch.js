@@ -9,8 +9,13 @@ The song is divided into 3 acts
 */
 
 let crown;
+let bgm;
 
 function preload() {
+  soundFormats("mp3");
+  // Load song
+  bgm = loadSound("./assets/song.mp3");
+
   // Load crown asset
   crown = createImg("./assets/crown.gif");
   // Load dream sequence assets
