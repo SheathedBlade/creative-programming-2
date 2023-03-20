@@ -2,22 +2,21 @@
 
 /* 
 The song is divided into 3 acts
-1: Playfulness: Set in the present/future
-2: Fairytale/Fantasy music, could be twisted into a nostalgic theme (dream sequence of nostalgia from ages past)
-3: Royalty (as in like, Medieval royalty), oath to protect the crown.
+1: Playfulness: Set in the present/future (start to 110)
+2: Fairytale/Fantasy music, could be twisted into a nostalgic theme (dream sequence of nostalgia from ages past) (110 to 244)
+3: Royalty (as in like, Medieval royalty), oath to protect the crown. (244 to end)
 
 */
 
 let crown,
-  crownX = 1,
-  crownY = 1,
-  crownA;
+  crownX,
+  crownY,
+  crownA = 0;
 let bgm;
 let bgR = 111,
   bgG = 156,
   bgB = 186;
 
-let easing = 0.05;
 let rippleArray = [];
 let pastelColors = [
   "#fdfd96",
@@ -83,11 +82,13 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   rectMode(CENTER);
   imageMode(CENTER);
-  crown.hide();
+  //crown.hide();
   noCursor();
   noFill();
   strokeWeight(1);
-  crown.position(-100, 0);
+
+  crownY = height / 2;
+  crown.position(-70, crownY);
 
   if (bgm.isLoaded && !bgm.isPlaying()) bgm.play();
 }
@@ -118,37 +119,55 @@ function draw() {
   }
 
   // Floating crown
-  if (bgm.currentTime() >= 244) {
+  if (bgm.currentTime() >= 5) {
     crown.show();
-    crownFloat();
+    crownRender();
   }
 }
 
-// Creates a new ripple when clicked
-function mousePressed() {
-  let c = random(pastelColors);
-  let ripple;
-  if (bgm.currentTime() <= 111) {
-    // set 1 second after 110
-    ripple = new PulsingCircle(mouseX, mouseY, c, -15, 100, -12, 100);
+function keyPressed() {
+  // Q key
+  if (keyCode == 81) {
+    let c = random(pastelColors);
+    let ripple;
+    if (bgm.currentTime() <= 111) {
+      // set 1 second after 110
+      ripple = new PulsingCircle(
+        random(50, windowWidth - 50),
+        random(50, windowHeight - 50),
+        c,
+        -15,
+        100,
+        -12,
+        100
+      );
+    }
+    if (bgm.currentTime() > 111 && bgm.currentTime() <= 244) {
+      ripple = new PulsingCircle(
+        random(50, windowWidth - 50),
+        random(50, windowHeight - 50),
+        c,
+        -12,
+        200,
+        -6,
+        200
+      );
+    }
+    rippleArray.push(ripple);
   }
-  if (bgm.currentTime() > 111 && bgm.currentTime() <= 244) {
-    ripple = new PulsingCircle(mouseX, mouseY, c, -12, 200, -6, 200);
-  }
-  rippleArray.push(ripple);
 }
 
-function crownFloat() {
-  let targetX = mouseX;
-  let dx = targetX - crownX;
-  crownX += dx * easing;
+// Renders the crown
+function crownRender() {
+  let time = bgm.currentTime();
 
-  let targetY = mouseY;
-  let dy = targetY - crownY;
-  crownY += dy * easing;
+  // Set to 244 to 318
+  crownX = map(time, 244, 318 - 70, windowWidth + 70);
+  crownY = sin(crownA) * 150 + height / 2;
 
   crown.size(70, 70);
   crown.position(crownX, crownY);
+  crownA += 0.008;
 }
 
 function Act1() {}
