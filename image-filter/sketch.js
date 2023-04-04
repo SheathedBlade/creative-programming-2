@@ -1,5 +1,5 @@
 let ui;
-let numFrames = 1,
+let numFrames = 12,
   whichFrame = 0,
   frames,
   capture;
@@ -29,6 +29,7 @@ function draw() {
   if (whichFrame === 0) capture.start();
   console.log("- " + whichFrame + "/" + frames.length);
 
+  filterSystemTwo(frames[whichFrame]);
   // overlay
   image(ui, 0, 0);
   capture.capture(document.getElementById("canvas"));
@@ -143,7 +144,14 @@ function halftone(img, constraints, minSize, maxSize, step) {
   }
 }
 
-function thresholdTritone(img, highCutoff, lowCutoff, midtone) {
+function thresholdTritone(
+  img,
+  highCutoff,
+  lowCutoff,
+  midtone,
+  hightone,
+  lowtone
+) {
   img.loadPixels();
 
   for (let i = 0; i < img.height; i++) {
@@ -157,13 +165,13 @@ function thresholdTritone(img, highCutoff, lowCutoff, midtone) {
       let bright = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
       if (bright > highCutoff) {
-        img.pixels[index] = 255;
-        img.pixels[index + 1] = 255;
-        img.pixels[index + 2] = 255;
+        img.pixels[index] = hightone[0];
+        img.pixels[index + 1] = hightone[1];
+        img.pixels[index + 2] = hightone[2];
       } else if (bright < lowCutoff) {
-        img.pixels[index] = 0;
-        img.pixels[index + 1] = 0;
-        img.pixels[index + 2] = 0;
+        img.pixels[index] = lowtone[0];
+        img.pixels[index + 1] = lowtone[1];
+        img.pixels[index + 2] = lowtone[2];
       } else {
         img.pixels[index] = midtone[0];
         img.pixels[index + 1] = midtone[1];
@@ -176,14 +184,14 @@ function thresholdTritone(img, highCutoff, lowCutoff, midtone) {
 }
 
 function filterSystemOne(img) {
-  tritone(img, color("#ffc414"), color("#d12a2a"), color("#6b0a59"));
+  tritone(img, color("#2DCEB1"), color("#FFFF00"), color("#1b0a59"));
   image(img, 0, 0);
   //filter(BLUR, 4);
   halftone(img, [180, 90, 60, img.height], 0, 20, 20);
 }
 
 function filterSystemTwo(img) {
-  thresholdTritone(img, 200, 100, [255, 0, 0]);
+  thresholdTritone(img, 150, 50, [255, 231, 74], [25, 105, 255], [120, 10, 29]);
   image(img, 0, 0);
-  halftone(img, [0, 0, 0, img.height / 2 - 100], 5, 10, 20);
+  halftone(img, [40, 105, 255, img.height / 2 - 100], 5, 20, 20);
 }
