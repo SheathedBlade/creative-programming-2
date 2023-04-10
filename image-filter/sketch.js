@@ -1,18 +1,18 @@
 let ui;
-let numFrames = 12,
+let numFrames = 1002, // 1002 frames
   whichFrame = 0,
   frames,
   capture;
 
 function preload() {
   frames = [];
-  for (let i = 1; i <= numFrames; i++) {
+  for (let i = 1002; i <= numFrames; i++) {
     let filename = "input/" + nf(i, 6) + ".png";
     let frame = loadImage(filename);
     frames.push(frame);
   }
 
-  ui = loadImage("./assets/TikTokOverlay.png");
+  ui = loadImage("./assets/monke-overlay.png");
 }
 
 function setup() {
@@ -33,7 +33,9 @@ function draw() {
   // overlay
   image(ui, 0, 0);
   capture.capture(document.getElementById("canvas"));
+
   whichFrame++;
+  // This section should be underneath the first if statement - its missing the very last frame
   if (whichFrame === frames.length) {
     capture.stop();
     capture.save();
