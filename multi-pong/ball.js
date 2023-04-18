@@ -14,7 +14,7 @@ class Ball {
   ) {
     this.position.add(this.speed);
 
-    if (this.position.y + this.dia / 2 <= player.y + player.h / 2) {
+    if (this.position.y + this.dia / 2 <= player.y + player.h) {
       let hit = this.checkPlayerCollision(player);
       if (hit) {
         this.speed.y *= -1.01;
@@ -27,7 +27,7 @@ class Ball {
       }
     }
 
-    if (this.position.y - this.dia / 2 >= computer.y - computer.h / 2) {
+    if (this.position.y - this.dia / 2 >= computer.y - computer.h) {
       let compHit = this.checkComputerCollision(computer);
       if (compHit) {
         this.speed.y *= -1.01;
