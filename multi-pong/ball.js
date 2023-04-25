@@ -1,37 +1,48 @@
 class Ball {
-  constructor(courtPosX) {
-    this.dia = 20;
-    this.respawnPoint = courtPosX;
-    this.respawn(courtPosX);
+  constructor(courtPos) {
+    this.dia = 10;
+    this.respawnPoint = courtPos;
+    this.respawn(courtPos);
   }
-  update(player, computer) {
+  update(
+    player,
+    computer,
+    leftWallPos,
+    rightWallPos,
+    topWallPos,
+    bottomWallPos
+  ) {
     this.position.add(this.speed);
 
-    let hit = this.checkPlayerCollision(player);
-    if (hit) {
-      this.speed.y *= -1.01;
-      this.speed.x += (this.position.x - player.x) / 20;
+    if (this.position.y + this.dia / 2 <= player.y + player.h) {
+      let hit = this.checkPlayerCollision(player);
+      if (hit) {
+        this.speed.y *= -1.01;
+        this.speed.x += (this.position.x - player.x) / 20;
+      }
+    } else {
+      if (this.position.y + this.dia / 2 > bottomWallPos.y - player.h / 2) {
+        this.respawn(this.respawnPoint);
+        score--;
+      }
     }
 
-    let compHit = this.checkComputerCollision(computer);
-    if (compHit) {
-      this.speed.y *= -1.01;
-      this.speed.x += (this.position.x - computer.x) / 20;
-    }
-
-    if (this.position.y < 0) {
-      this.respawn(this.respawnPoint);
-      score++;
-    }
-
-    if (this.position.y > height) {
-      this.respawn(this.respawnPoint);
-      score--;
+    if (this.position.y - this.dia / 2 >= computer.y - computer.h) {
+      let compHit = this.checkComputerCollision(computer);
+      if (compHit) {
+        this.speed.y *= -1.01;
+        this.speed.x += (this.position.x - computer.x) / 20;
+      }
+    } else {
+      if (this.position.y - this.dia / 2 < topWallPos.y + computer.h / 2) {
+        this.respawn(this.respawnPoint);
+        score++;
+      }
     }
 
     if (
-      this.position.x < this.dia / 2 ||
-      this.position.x > player.rightConstraint - this.dia / 2
+      this.position.x < leftWallPos.x + this.dia / 2 + 5 ||
+      this.position.x > rightWallPos.x - this.dia / 2 - 5
     ) {
       this.speed.x *= -1;
     }
@@ -41,8 +52,8 @@ class Ball {
     noStroke();
     circle(this.position.x, this.position.y, this.dia);
   }
-  respawn(xPos) {
-    this.position = createVector(xPos, height / 2);
+  respawn(posVec) {
+    this.position = createVector(posVec.x, posVec.y);
     this.speed = createVector(random(-5, 5), random(2, 5));
   }
 
@@ -59,7 +70,7 @@ class Ball {
   }
   checkComputerCollision(c) {
     if (
-      this.position.y + this.dia / 2 < c.y + c.h + c.h / 2 &&
+      this.position.y + this.dia / 2 < c.y + c.h * 2 &&
       this.position.x > c.x - c.w / 2 &&
       this.position.x < c.x + c.w / 2 &&
       this.speed.y < 0

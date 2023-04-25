@@ -2,6 +2,7 @@ let score = 0;
 let balls = [];
 let playerPaddles = [];
 let computerPaddles = [];
+let courts = [];
 let pongSound;
 
 function preload() {
@@ -12,9 +13,7 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   noCursor();
 
-  balls.push(new Ball(250));
-  playerPaddles.push(new PlayerPaddle(0, 500, 250));
-  computerPaddles.push(new ComputerPaddle(0, 500, 250));
+  courts.push(new Court(0, 500, height / 2, 0, height, 250));
 }
 
 function draw() {
@@ -22,16 +21,29 @@ function draw() {
 
   fill(0);
   noStroke();
-  text("SCORE: " + score, 15, 20);
+  text("SCORE: " + score, 520, 20);
 
-  for (let i = 0; i < balls.length; i++) {
-    balls[i].update(playerPaddles[i], computerPaddles[i]);
-    balls[i].display();
+  for (let i = 0; i < courts.length; i++) {
+    courts[i].update();
+    courts[i].display();
+  }
 
-    playerPaddles[i].update();
-    playerPaddles[i].display();
+  if (score == 5 && courts.length == 1) {
+    courts.push(
+      new Court(600, 1080, height / 4, 0, height / 2, (1080 + 600) / 2)
+    );
+  }
 
-    computerPaddles[i].update(balls[i]);
-    computerPaddles[i].display();
+  if (score == 10 && courts.length == 2) {
+    courts.push(
+      new Court(
+        700,
+        1200,
+        height - height / 4 + 10,
+        height / 2 + 20,
+        height,
+        950
+      )
+    );
   }
 }
