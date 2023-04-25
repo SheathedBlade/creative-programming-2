@@ -2,6 +2,11 @@ let score = 0;
 let balls = [];
 let playerPaddles = [];
 let computerPaddles = [];
+let pongSound;
+
+function preload() {
+  pongSound = loadSound("./assets/pong.wav");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
