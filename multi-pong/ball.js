@@ -19,11 +19,14 @@ class Ball {
       if (hit) {
         this.speed.y *= -1.01;
         this.speed.x += (this.position.x - player.x) / 20;
+        pongSound.play();
       }
     } else {
       if (this.position.y + this.dia / 2 > bottomWallPos.y - player.h / 2) {
         this.respawn(this.respawnPoint);
-        score--;
+        lives--;
+        if (lives == 0) gameOverSound.play();
+        else livesSound.play();
       }
     }
 
@@ -32,11 +35,13 @@ class Ball {
       if (compHit) {
         this.speed.y *= -1.01;
         this.speed.x += (this.position.x - computer.x) / 20;
+        pongSound.play();
       }
     } else {
       if (this.position.y - this.dia / 2 < topWallPos.y + computer.h / 2) {
         this.respawn(this.respawnPoint);
         score++;
+        scoreSound.play();
       }
     }
 
